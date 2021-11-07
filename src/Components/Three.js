@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import * as React from 'react';
 
-//import Stats from 'three/examples/jsm/libs/stats.module.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
@@ -25,14 +24,9 @@ export function ThreeCanvas() {
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.outputEncoding = THREE.sRGBEncoding;
 
-            //document.body.innerHTML = "";
-            //document.body.appendChild(renderer.domElement);
-            //renderer.domElement.appendChild(stats.dom);
-
             const pmremGenerator = new THREE.PMREMGenerator( renderer );
 
             const scene = new THREE.Scene();
-            //scene.background = new THREE.Color(0xbfe3dd);
             scene.environemnt = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
             
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -43,11 +37,6 @@ export function ThreeCanvas() {
 			controls.update();
 			controls.enablePan = false;
 			controls.enableDamping = true;
-
-            //const geometry = new THREE.DodecahedronBufferGeometry(1.7, 0);
-            // const material = new THREE.MeshStandardMaterial({
-            //     color: "#00FF95",
-            // });
 
             const Stars = () => {
                 const starGeometry = new THREE.SphereGeometry(0.1, 24, 24)
@@ -62,16 +51,9 @@ export function ThreeCanvas() {
 
             Array(200).fill(100).forEach(Stars)
 
-            const light = new THREE.PointLight(0xffffff)
-            light.position.set(20, 20, 20)
-            scene.add(light)
-
-            //camera.position.z = 5;
-            //camera.position.x = 3.5
-
-            //const Figure = new THREE.Mesh(geometry, material);
-
-            //scene.add(Figure);
+            const light = new THREE.PointLight(0xffffff);
+            light.position.set(20, 20, 20);
+            scene.add(light);
 
             const dracoLoader = new DRACOLoader();
 			dracoLoader.setDecoderPath( 'js/libs/draco/gltf/' );
@@ -105,8 +87,6 @@ export function ThreeCanvas() {
             const animate = () => {
                 requestAnimationFrame(animate);
                 
-                //Figure.rotation.x += 0.01;
-                //Figure.rotation.y += 0.01;
                 const delta = clock.getDelta();
 				mixer.update( delta );
                 controls.update();
@@ -120,12 +100,10 @@ export function ThreeCanvas() {
                 camera.updateProjectionMatrix();
             };
 
-            //animate();
             ref.current.appendChild(renderer.domElement);
             //ref.current.appendChild(stats.dom);
             window.addEventListener("resize", resize);
             setLoaded(true);
-            //return () => window.removeEventListener("resize", resize);
         }
     }, [ref, loaded]);
     
